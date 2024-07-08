@@ -1,0 +1,15 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  color: #b6e7db;
+
+  background-image: url(./assets/goodfood.png);
+  background-size: cover;
+  /* Ensure the image covers the entire element */
+  background-position: center;
+  /* Center the background image */
+  background-repeat: no-repeat;
+  /* Prevent the image from repeating */
+}

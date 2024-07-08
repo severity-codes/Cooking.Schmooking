@@ -1,0 +1,58 @@
+/* body {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17px;
+    line-height: 1;
+} */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #d5afc0;
+}
+
+a {
+    text-decoration: none;
+    color: #d4af77;
+}
+
+a:hover {
+    color: rgb(199, 167, 226);
+}
+
+/* .profile-header h1 {
+} */
+
+.user-info img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-top: 10px;
+}
+
+.updatebtn {
+    background-color: #9d6205;
+    color: #f9e18e;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 13px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: 200;
+}
+
+.sorted-recipes {
+    display: flex;
+    background: linear-gradient(rgba(174, 114, 141, 0.5), rgba(131, 2, 43, 0.1));
+    margin-top: 230px !important;
+    margin: 0 auto;
+    width: 200px;
+    height: 200px;
+    padding: 6px;
+    border-radius: 20%;
+}
