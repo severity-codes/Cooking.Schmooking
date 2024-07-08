@@ -24,6 +24,12 @@ background-color: #84590a;
         cursor: pointer;
 }
 
+.navbar>h1 {
+    margin-right: 0,auto;
+    color: rgb(245, 226, 87);
+    font: 3em sans-serif;opacity: 0.5;
+}
+
 .navbar>img {
     height:100px;
     margin-left: 10px;

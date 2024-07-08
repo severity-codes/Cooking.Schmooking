@@ -5,6 +5,7 @@ function NavBar({ logout }) {
   return (
     <nav className="navbar">
       <img src={logo} alt="Logo" />
+      <h1>Cooking Schmooking</h1>
       <Link to="/">Home</Link>
       <Link to="/profile">Profile</Link>
 
