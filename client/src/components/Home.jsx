@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+// import { useAuth } from "../context/AuthContext";
 const Home = () => {
   const [latestRecipes, setLatestRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,6 +20,7 @@ const Home = () => {
       console.error("Error fetching latest recipes:", error);
       setLatestRecipes([]);
     }
+
     setLoading(false);
   };
 

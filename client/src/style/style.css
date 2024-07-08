@@ -1,4 +1,4 @@
-*{
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -8,108 +8,127 @@
     text-decoration: none;
 }
 
-.navbar{
-    display: flex; 
+.navbar {
+    display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 40px;
+    height: 100px;
     background-color: #455d7a;
 }
 
-.navbar > a{
+.navbar>a {
     color: rgb(238, 171, 94);
+background-color: #84590a;
+    padding: 4px;
+        border-radius: 10px;
+        cursor: pointer;
 }
 
-.navbar >a:hover{
+.navbar>img {
+    height:100px;
+    margin-left: 10px;
+}
+
+.navbar>a:hover {
     background-color: #233142;
-    padding: 8px;
-    border-radius: 5px;
 }
 
-.logout{
+.logout {
     width: 100px;
-    background-color: #de9306;
-    color: white;
+    background-color: #84590a;
+    color: rgb(245, 226, 87);
     padding: 4px;
     border-radius: 10px;
-    cursor: pointer; 
+    cursor: pointer;
 }
 
-.logout:hover{
+.logout:hover {
     background-color: #fe3838;
 }
 
-.auth-container{
+.auth-container {
     display: flex;
     align-items: center;
     flex-direction: column;
-    height: 100vh; 
+    height: 100vh;
 }
 
-.auth-container > h1 {
+.auth-container>h1 {
     font-size: 2em;
     margin: 24px;
 }
 
-.auth-container > p {
+.auth-container>p {
     margin: 8px;
     text-decoration: underline;
 }
 
-.auth-container >p:hover{
-    cursor: pointer;
+.auth-container>p:hover {
+    /* Add your styles here */
 }
 
-.auth-container > form{
+.auth-container>form {
     border: 1px solid #3338;
     padding: 20px;
     border-radius: 5px;
     background-color: #3c516b;
-
     display: flex;
     flex-direction: column;
 }
 
-.auth-container > form > input {
+.auth-container>form>input {
     margin: 16px 8px;
     padding: 8px;
     border-radius: 4px;
     width: 350px;
 }
 
-.auth-container > form >button {
+.auth-container>form>button {
     margin: 16px 8px;
-    padding: 8px;
     border-radius: 4px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #84590a;
 }
 
-.auth-container > form >button:hover {
-    background-color: #5b697a;
-    color: white;
+.navbar img {
+    height: 100px;
+    margin-right: 20px; width: 100px;
 }
 
-.public-container{
+.navbar .nav-links {
+    display: flex;
+    gap: 10px;
+}
+
+.navbar .nav-links a {
+    color: rgb(124, 116, 26);
+    font-size: 14px;
+}
+
+.public-container {
     height: 100vh;
     text-align: center;
     margin-top: 20px;
     color: #455d7a;
 }
 
-.public-container > .title{
+.public-container>.title {
     font-size: 32px;
     font-weight: bold;
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
 }
 
-.public-container > .subtitle{
+.public-container>.subtitle {
     font-size: 24px;
     font-weight: normal;
     margin-bottom: 10px;
 }
 
 /* 
-.profile{
+.profile {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -122,12 +141,12 @@
     text-align: center;
 }
 
-.profile > h3{
+.profile > h3 {
     margin: 16px 0;
     text-decoration: underline;
 }
 
-.profile > form{
+.profile > form {
     display: flex;
     flex-direction: column;
     margin: 16px 0;
@@ -144,7 +163,7 @@
     border-radius: 5px;
 } */
 
-.recipe-container{
+.recipe-container {
     box-sizing: border-box;
     border: solid 1px #233142;
     margin: 15px;
@@ -153,29 +172,30 @@
     padding: 20px;
 }
 
-.recipe-form > input{
+.recipe-form>input {
     width: 500px;
-}
-
-.recipe > h1{
     margin-bottom: 5px;
-    color: #917979;
-    font-size: 18px;
 }
 
-.upvote, .downvote{
+.upvote,
+.downvote {
+    /* Add your styles here */
+}
+
+.upvote:hover {
+    background-color: #629832;
+}
+
+.downvote:hover {
+    background-color: #ea9696;
+}
+
+.upvote,
+.downvote {
     cursor: pointer;
     margin: 10px;
 }
 
-.upvote:hover{
-    background-color: #629832
-}
-
-.downvote:hover{
-    background-color:#ea9696 ;
-}
-
-.comments{
-    color:#78034f;
+.comments {
+    color: #78034f;
 }
