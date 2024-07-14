@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useState } from "react";
-import {RecipesContext} from '../context/RecipeProvider'
-// import { useContext } from "react";
+import { RecipesContext } from '../context/RecipeProvider';
+
 // Function component for creating and submitting recipes
 export default function RecipeForm() {
   const { addRecipe } = useContext(RecipesContext);
@@ -21,13 +21,14 @@ export default function RecipeForm() {
     }));
   }
 
-function handleSubmit(e) {
-  e.preventDefault();
-  addRecipe(inputs); // 'inputs' is the state holding form data
-  setInputs(initInputs); // Reset form
-}
+  function handleSubmit(e) {
+    e.preventDefault();
+    addRecipe(inputs); // 'inputs' is the state holding form data
+    setInputs(initInputs); // Reset form
+  }
 
   const { title, description, imgUrl } = inputs;
+
   return (
     <form className="recipe-form" onSubmit={handleSubmit}>
       <input
@@ -51,7 +52,7 @@ function handleSubmit(e) {
         onChange={handleChange}
         placeholder="Image Url"
       />
-      <button>
+      <button type="submit">
         Add Recipe
         <i className="fa-solid fa-plus"></i>
       </button>

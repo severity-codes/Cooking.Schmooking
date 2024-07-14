@@ -1,24 +1,33 @@
 import React from "react";
-import { createRoot } from "react-dom/client"; // Updated import
+import { createRoot } from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
-import UserProvider from "../src/context/UserProvider";
+import UserProvider from "./context/UserProvider";
 import RecipeProvider from "./context/RecipeProvider";
 import CommentProvider from "./context/CommentProvider";
 import "./style/style.css";
 
+// Check if rootElement exists
 const rootElement = document.getElementById("root");
-const root = createRoot(rootElement); 
-root.render(
-  <React.StrictMode>
-    <Router>
-      <CommentProvider>
-        <RecipeProvider>
-          <UserProvider>
-            <App />
-          </UserProvider>
-        </RecipeProvider>
-      </CommentProvider>
-    </Router>
-  </React.StrictMode>
-);
+
+if (rootElement) {
+  const root = createRoot(rootElement);
+
+  root.render(
+    <React.StrictMode>
+      <Router>
+        <UserProvider>
+          <RecipeProvider>
+            <CommentProvider>
+              <App />
+            </CommentProvider>
+          </RecipeProvider>
+        </UserProvider>
+      </Router>
+    </React.StrictMode>
+  );
+} else {
+  console.error(
+    "Root element not found. Did you forget to add it to your HTML?"
+  );
+}

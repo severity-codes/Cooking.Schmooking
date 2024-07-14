@@ -1,14 +1,16 @@
-/* Add more styles as needed */
+/* Main container style */
 .home {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
 }
 
+/* Form style */
 form {
     margin-bottom: 20px;
 }
 
+/* Input field style */
 input[type="text"] {
     width: 70%;
     padding: 8px;
@@ -17,29 +19,33 @@ input[type="text"] {
     margin-right: 10px;
 }
 
+/* Button style */
 button {
     padding: 8px 16px;
-background-color: #9d6205;
-    color: #f9e18e;
-    border: none;
+    background-color: #9d6205;
+    color: #f9e18e; /* Ensure this color has enough contrast */
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
+/* Button hover effect */
 button:hover {
     background-color: #af8c21;
 }
 
+/* Unordered list style */
 ul {
     list-style-type: none;
     padding: 0;
 }
 
+/* List item style */
 li {
     margin-bottom: 20px;
 }
 
+/* Image style */
 img {
     max-width: 100%;
     height: auto;

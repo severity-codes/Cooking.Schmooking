@@ -1,16 +1,18 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import React, { useContext } from "react";
+import PropTypes from "prop-types";
 import Dropdown from "react-bootstrap/Dropdown";
 import { CommentContext } from "../context/CommentProvider";
 import { UserContext } from "../context/UserProvider";
-function Comment(props) {
-  const { comment, _id, recipeId, user, createdAt } = props;
+import moment from "moment";
 
-  // const firstLetter = user?.username?.charAt(0).toUpperCase() || "";
-  // const usernameCased =
-  // user?.username?.charAt(0).toUpperCase() +
-  //   user?.username?.slice(1).toLowerCase() || "";
+function Comment(props) {
+  const { comment, _id, recipeId, user = {}, createdAt } = props;
+
+  // Handle first letter and cased username
+  const firstLetter = user.username?.charAt(0).toUpperCase() || "";
+  const usernameCased = user.username
+    ? `${user.username.charAt(0).toUpperCase()}${user.username.slice(1).toLowerCase()}`
+    : "";
 
   const { deleteComment } = useContext(CommentContext);
 
@@ -18,8 +20,8 @@ function Comment(props) {
     deleteComment(recipeId, _id);
   }
 
-  // added moment to show time from now
-  const formattedTime = moment(createdAt).fromNow();
+  // Check if createdAt is valid date
+  const formattedTime = moment(createdAt).isValid() ? moment(createdAt).fromNow() : "Unknown time";
 
   const { token, user: currentUser } = useContext(UserContext);
 
@@ -55,5 +57,17 @@ function Comment(props) {
     </div>
   );
 }
+
+// Adding PropTypes
+Comment.propTypes = {
+  comment: PropTypes.string.isRequired,
+  _id: PropTypes.string.isRequired,
+  recipeId: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    _id: PropTypes.string,
+    username: PropTypes.string
+  }),
+  createdAt: PropTypes.string.isRequired
+};
 
 export default Comment;

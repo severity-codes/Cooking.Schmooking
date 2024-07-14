@@ -1,85 +1,83 @@
 import React, { useState, useContext, useEffect } from "react";
+import PropTypes from "prop-types";
 import Recipe from "./Recipe";
-import Comments from "./CommentsList";
-import CommentForm from "./CommentsForm";
+import Comment from "./CommentsList";
+import CommentsForm from "./CommentsForm";
 import { CommentContext } from "../context/CommentProvider";
 import { RecipesContext } from "../context/RecipeProvider";
 import { UserContext } from "../context/UserProvider";
-
-export default function RecipeList({ userId }) {
-  const { comments, getComments } = useContext(CommentContext);
+import "./recipelist.css";
+const RecipeList = ({ userId }) => {
+  const { comments, getComments } = useContext(CommentContext); // Make sure to use getComments
   const { getUserRecipes, recipes, likeRecipe, dislikeRecipe, deleteRecipe } =
     useContext(RecipesContext);
   const {
     user: { username, _id },
     token,
   } = useContext(UserContext);
+
   const [currentRecipeId, setCurrentRecipeId] = useState(null);
-  const [showComments, setShowComments] = useState(false);
+  const [showComment, setShowComment] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       await getUserRecipes(userId);
       if (currentRecipeId) {
-        getComments(currentRecipeId);
-        setShowComments(true);
+        await getComments(currentRecipeId); // Make sure getComments is used here
+        setShowComment(true);
       } else {
-        setShowComments(false);
+        setShowComment(false);
       }
     };
     fetchData();
-  }, [userId, currentRecipeId]);
+  }, [userId, currentRecipeId, getUserRecipes, getComments]);
 
   const handleDeleteRecipe = async (recipeId) => {
     await deleteRecipe(recipeId);
-    // After deletion, fetch the updated list of recipes
-    await getUserRecipes(userId);
+    await getUserRecipes(userId); // Fetch updated list of recipes
   };
 
   const handleLikeRecipe = async (recipeId) => {
     await likeRecipe(recipeId);
-    // After liking, fetch the updated list of recipes
-    await getUserRecipes(userId);
+    await getUserRecipes(userId); // Fetch updated list of recipes
   };
 
   const handleDislikeRecipe = async (recipeId) => {
     await dislikeRecipe(recipeId);
-    // After disliking, fetch the updated list of recipes
-    await getUserRecipes(userId);
+    await getUserRecipes(userId); // Fetch updated list of recipes
   };
 
   return (
     <div className="recipe-list">
       {recipes?.map((recipe) => (
         <div className="comment-section" key={recipe._id}>
-          <Recipe {...recipe} />
+          <Recipe
+            title={recipe.title}
+            description={recipe.description}
+            imageUrl={recipe.imageUrl || "default-image-url.jpg"} // Provide default for missing imageUrl
+            _id={recipe._id}
+            createdAt={recipe.createdAt}
+          />
           <span className="likes-counter">
-            {recipe.likes.length === 0 ? (
-              ""
-            ) : (
-              <i className="fa-solid fa-thumbs-up"></i>
+            {recipe.likes.length > 0 && (
+              <>
+                <i className="fa-solid fa-thumbs-up"></i>
+                {(() => {
+                  const userLike = recipe.likes.some(
+                    (like) => like.user === userId
+                  );
+                  const otherLikesCount =
+                    recipe.likes.length - (userLike ? 1 : 0);
+                  if (userLike && otherLikesCount > 0) {
+                    return `You and ${otherLikesCount} others`;
+                  } else if (userLike) {
+                    return `You`;
+                  } else {
+                    return `${otherLikesCount}`;
+                  }
+                })()}
+              </>
             )}
-            {(() => {
-              const userLike = recipe.likes.filter(
-                (like) => like.user === userId
-              );
-              const otherLikes = recipe.likes.length - userLike.length;
-              if (userLike.length > 0 && otherLikes > 2) {
-                return `You and ${otherLikes} others`;
-              } else if (userLike.length > 0 && otherLikes === 0) {
-                return `${username}`;
-              } else if (userLike.length === 0 && otherLikes === 0) {
-                return "";
-              } else if (userLike.length === 0 && otherLikes === 1) {
-                return `${recipe.likes?.map((like) => `${like.username}`)}`;
-              } else if (userLike.length > 0 && otherLikes === 1) {
-                return `${recipe.likes
-                  ?.map((like) => `${like.username}`)
-                  .join(" and ")}`;
-              } else {
-                return `${otherLikes}`;
-              }
-            })()}
           </span>
           <button onClick={() => handleLikeRecipe(recipe._id)}>Like</button>
           <button onClick={() => handleDislikeRecipe(recipe._id)}>
@@ -90,4 +88,10 @@ export default function RecipeList({ userId }) {
       ))}
     </div>
   );
-}
+};
+
+RecipeList.propTypes = {
+  userId: PropTypes.string.isRequired,
+};
+
+export default RecipeList;

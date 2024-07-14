@@ -1,0 +1,47 @@
+/* navbar.css */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #8b8686;
+    padding: 10px 20px;
+    color: white;
+}
+
+.navbar header {
+    display: flex;
+    align-items: center;
+}
+
+.navbar img {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.navbar h1 {
+    font-size: 1.5em;
+    margin: 0;
+}
+
+.navbar div[role="navigation"] {
+    display: flex;
+    gap: 15px;
+}
+
+.navbar a {
+    color: rgb(214, 181, 14);
+    /* Gold-ish color as specified */
+    text-decoration: none;
+    font-size: 2em;
+    /* Increased font size */
+    transition: color 0.3s ease;
+    margin: 0 50px;
+    /* Increased margin for better separation */
+}
+
+.navbar a:hover {
+    color: #ff6347;
+    /* Tomato color on hover */
+}

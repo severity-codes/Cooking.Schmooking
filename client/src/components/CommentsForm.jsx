@@ -1,15 +1,19 @@
-/* eslint-disable react/prop-types */
-
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import PropTypes from "prop-types";
 import { CommentContext } from "../context/CommentProvider";
 import { UserContext } from "../context/UserProvider";
+import "./commentform.css";
 
 const CommentForm = ({ recipeId }) => {
+  // Initialize input state
   const initInputs = { comment: "" };
-  const [inputs, setInputs] = React.useState(initInputs);
+  const [inputs, setInputs] = useState(initInputs);
+  
+  // Retrieve context values
   const { addComment } = useContext(CommentContext);
   const { user, token } = useContext(UserContext);
 
+  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputs((prevInputs) => ({
@@ -18,21 +22,28 @@ const CommentForm = ({ recipeId }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = { user: user._id, comment: inputs.comment };
-    addComment(recipeId, payload);
-    setInputs(initInputs);
+    try {
+      if (!user?._id) throw new Error("User ID not found");
+
+      const firstLetter = user?.username?.charAt(0).toUpperCase() || "";
+      const payload = { user: user._id, comment: `${firstLetter}: ${inputs.comment}` };
+      await addComment(recipeId, payload);
+      setInputs(initInputs); // Reset input
+    } catch (error) {
+      console.error("Failed to add comment", error);
+    }
   };
 
+  // Render component conditionally based on token presence
   if (!token) {
-    return null; // or render some other component instead
+    return null;
   }
 
   const { comment } = inputs;
-  const firstLetter = user.username
-    ? user.username.charAt(0).toUpperCase()
-    : "";
+  const firstLetter = user?.username?.charAt(0).toUpperCase() || "";
 
   return (
     <div className="comment-form-wrapper">
@@ -46,11 +57,15 @@ const CommentForm = ({ recipeId }) => {
           placeholder="Write a comment..."
         />
         <button type="submit" className="comment-submit-btn">
-          <i className="fa-regular fa-paper-plane"></i>
+          <i className="fa-regular fa-paper-plane"></i> Post Comment
         </button>
       </form>
     </div>
   );
+};
+
+CommentForm.propTypes = {
+  recipeId: PropTypes.string.isRequired,
 };
 
 export default CommentForm;

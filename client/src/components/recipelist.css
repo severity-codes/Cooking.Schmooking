@@ -1,0 +1,57 @@
+/* recipeList.css */
+
+/* Main container for the recipe list */
+.recipe-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    background-color: #beac90;
+    border-radius: 8px;
+}
+
+/* Individual comment sections within a recipe */
+.comment-section {
+    width: 90%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the likes counter span */
+.likes-counter {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.likes-counter i {
+    margin-right: 5px;
+    color: #007bff;
+}
+
+/* Styles for buttons like, dislike and delete */
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 12px;
+    margin-right: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}

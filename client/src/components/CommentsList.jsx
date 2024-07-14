@@ -1,32 +1,37 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
 import React, { useContext, useEffect } from "react";
+import PropTypes from "prop-types";
+import { CommentContext } from "../context/CommentProvider";
+import CommentForm from "./CommentsForm"; // Fixed typo
 import Comment from "./Comment";
-
-import CommentContext from "../context/CommentProvider"
-function Comments({ recipeId, comments }) {
-  const { getComments } = useContext(CommentContext);
+import "./commentlist.css"
+const CommentsList = ({ recipeId }) => {
+  const { comments, getComments } = useContext(CommentContext);
 
   useEffect(() => {
-    getComments(recipeId);
-  }, [recipeId]);
+    if (recipeId) {
+      getComments(recipeId);
+    }
+  }, [recipeId, getComments]); // Ensure getComments is stable (e.g., using useCallback)
 
-  // If comments are not available yet, initialize it as an empty array
-  const commentsArray = comments || [];
+  if (!comments) {
+    return <div className="loading-comments">Loading comments...</div>;
+  }
 
   return (
-    <div className="comment-list">
-      {commentsArray.map((comment) => (
-        <Comment {...comment} key={comment._id} recipeId={recipeId} />
-      ))}
+    <div className="comments-container">
+      {comments.length > 0 ? (
+        comments.map((comment) => (
+          <Comment key={comment._id} {...comment} recipeId={recipeId} />
+        ))
+      ) : (
+        <div className="no-comments">No comments yet.</div>
+      )}
     </div>
   );
-}
-
-// Set default prop values
-Comments.defaultProps = {
-  comments: [],
 };
 
-export default Comments;
+CommentsList.propTypes = {
+  recipeId: PropTypes.string.isRequired,
+};
+
+export default CommentsList;

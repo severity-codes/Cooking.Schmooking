@@ -1,0 +1,18 @@
+.comment-form-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.comment-form {
+  display: flex;
+  flex-grow: 1;
+}
+
+.comment-form input {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}

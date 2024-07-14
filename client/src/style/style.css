@@ -169,15 +169,6 @@ background-color: #84590a;
     border-radius: 5px;
 } */
 
-.recipe-container {
-    box-sizing: border-box;
-    border: solid 1px #233142;
-    margin: 15px;
-    text-align: center;
-    border-radius: 10px;
-    padding: 20px;
-}
-
 .recipe-form>input {
     width: 500px;
     margin-bottom: 5px;

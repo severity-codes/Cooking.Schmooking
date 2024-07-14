@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import React, { useContext, useState } from "react";
+import PropTypes from "prop-types";
 import Dropdown from "react-bootstrap/Dropdown";
 import Modal from "react-bootstrap/Modal";
 
@@ -8,15 +7,24 @@ import Modal from "react-bootstrap/Modal";
 import { UserContext } from "../context/UserProvider";
 import { RecipesContext } from "../context/RecipeProvider";
 
-export default function Recipe(props) {
-  const { title, description, imageUrl, _id, createdAt } = props;
+export default function Recipe({
+  title,
+  description,
+  imageUrl = "default-image-url.jpg", // Default image URL
+  _id,
+  createdAt,
+}) {
+  if (!title || !description || !_id || !createdAt) {
+    console.error("Required props missing:", { title, description, _id, createdAt });
+    return null; // or handle the error case as needed
+  }
 
   const {
     token,
     user: { username },
   } = useContext(UserContext);
 
-  const { editRecipe, deleteRecipe } = useContext(RecipesContext);
+  const { editRecipe, deleteRecipe, likeRecipe } = useContext(RecipesContext);
 
   const [recipe, setRecipe] = useState({
     title,
@@ -24,38 +32,39 @@ export default function Recipe(props) {
     imageUrl,
   });
 
+  // Log initial props
+  console.log('Initial Props:', { title, description, imageUrl, _id, createdAt });
+  // Log state updates 
+  console.log('Recipe State:', recipe);
+
   const [isEditing, setIsEditing] = useState(false);
-
   const [show, setShow] = useState(false);
-  const [isliked, setIsliked] = useState(false);
-  const handleShow = () => setShow(true);
+  const [isLiked, setIsLiked] = useState(false);
 
+  const handleShow = () => setShow(true);
   const handleClose = () => {
     setShow(false);
-    setIsEditing(!isEditing);
+    setIsEditing(false);
   };
 
-  function handleEdit() {
-    setIsEditing(!isEditing);
+  const handleEdit = () => {
+    setIsEditing(true);
     handleShow();
-  }
+  };
 
-  function handleDelete() {
+  const handleDelete = () => {
     deleteRecipe(_id);
-  }
+  };
 
-  function handleSave() {
+  const handleSave = () => {
     editRecipe(_id, recipe);
-    setIsEditing(false);
     handleClose();
-  }
+  };
 
-  function handleLike() {
+  const handleLike = () => {
     likeRecipe(_id);
-    setIsliked(true);
-    setIsliked(!isliked);
-    handleClose();
-  }
+    setIsLiked(!isLiked);
+  };
 
   // Capitalize first letter
   const firstLetter = token && username ? username.charAt(0).toUpperCase() : "";
@@ -64,24 +73,13 @@ export default function Recipe(props) {
     : "";
 
   // Calculate the time elapsed since the recipe was posted
-  const ONE_MINUTE = 60;
-  const ONE_HOUR = 60 * ONE_MINUTE;
-  const ONE_DAY = 24 * ONE_HOUR;
-  let timeElapsedStr = "";
-  const timeElapsed = Math.floor((Date.now() - new Date(createdAt)) / 1000); // in seconds
-
-  if (timeElapsed < ONE_MINUTE) {
-    timeElapsedStr = `${timeElapsed} seconds ago`;
-  } else if (timeElapsed < ONE_HOUR) {
-    const minutes = Math.floor(timeElapsed / ONE_MINUTE);
-    timeElapsedStr = `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
-  } else if (timeElapsed < ONE_DAY) {
-    const hours = Math.floor(timeElapsed / ONE_HOUR);
-    timeElapsedStr = `${hours} hour${hours > 1 ? "s" : ""} ago`;
-  } else {
-    const days = Math.floor(timeElapsed / ONE_DAY);
-    timeElapsedStr = `${days} day${days > 1 ? "s" : ""} ago`;
-  }
+  const timeElapsedInSeconds = (Date.now() - new Date(createdAt)) / 1000; // in seconds
+  const timeElapsedStr = new Intl.RelativeTimeFormat("en", {
+    numeric: "auto",
+  }).format(
+    -Math.floor(timeElapsedInSeconds / 60),
+    timeElapsedInSeconds < 3600 ? "minute" : "hour"
+  );
 
   return (
     <div className="recipe-container">
@@ -107,7 +105,6 @@ export default function Recipe(props) {
                   <Dropdown.Item onClick={handleEdit}>Edit</Dropdown.Item>
                   <Dropdown.Item onClick={handleDelete}>Delete</Dropdown.Item>
                   <Dropdown.Item onClick={handleSave}>Save</Dropdown.Item>
-
                   <Dropdown.Item onClick={handleLike}>Like</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
@@ -117,10 +114,10 @@ export default function Recipe(props) {
         <div className="recipe-wrapper">
           <div className="recipe-div">
             <h3 className="recipe-title">{recipe.title}</h3>
-            <p className="recipe-des">{description}</p>
+            <p className="recipe-des">{recipe.description}</p>
             <img
               className="recipe-img"
-              src={imageUrl}
+              src={recipe.imageUrl}
               alt={title}
               width={300}
             />
@@ -173,3 +170,11 @@ export default function Recipe(props) {
     </div>
   );
 }
+
+Recipe.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  imageUrl: PropTypes.string,
+  _id: PropTypes.string.isRequired,
+  createdAt: PropTypes.string.isRequired,
+};

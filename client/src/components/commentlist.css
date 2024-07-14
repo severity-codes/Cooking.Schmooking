@@ -1,0 +1,69 @@
+/* Container for comments */
+.comments-container {
+  margin: 20px 0;
+}
+
+/* Individual comment styling */
+.comment {
+  display: flex;
+  align-items: flex-start;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+/* Author name in comment */
+.comment-author {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Comment date styling */
+.comment-date {
+  font-size: 0.875em;
+  color: #999;
+  margin-left: auto;
+}
+
+/* Text of the comment */
+.comment-text {
+  margin-top: 5px;
+  color: #555;
+}
+
+/* Loading message */
+.loading-comments,
+.no-comments {
+  font-style: italic;
+  color: #db8282;
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* Input field for comments */
+.comment-input {
+  width: 50%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  resize: vertical;
+}
+
+/* Button to submit a comment */
+.comment-button {
+  align-self: flex-end;
+  padding: 10px 20px;
+  background-color: #cfb825;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the button */
+.comment-button:hover {
+  background-color: #44c6da;
+}

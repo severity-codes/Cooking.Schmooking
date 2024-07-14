@@ -14,14 +14,14 @@ export default function App() {
 
   return (
     <div className="app">
-      {localStorage.getItem("token") && <NavBar logout={logout} />}
+      {token && <NavBar logout={logout} />}
       <Routes>
-        {localStorage.getItem("token") ? (
+        {token ? (
           <>
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
-            jsx
             <Route path="/meal/:mealId" element={<MealDetails />} />
+            <Route path="*" element={<Navigate to="/" replace />} /> {/* Redirect unknown routes to home */}
           </>
         ) : (
           <Route path="*" element={<Auth />} />

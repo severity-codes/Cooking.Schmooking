@@ -1,8 +1,4 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/prop-types */
-import React, { useState, useContext } from "react";
-import { RecipesContext } from "./RecipeProvider";
+import React, { useState } from "react";
 import axios from "axios";
 
 export const UserContext = React.createContext();
@@ -15,10 +11,21 @@ userAxios.interceptors.request.use((config) => {
   return config;
 });
 
+const storage = {
+  getUser: () => JSON.parse(localStorage.getItem("user")),
+  getToken: () => localStorage.getItem("token"),
+  setUser: (user) => localStorage.setItem("user", JSON.stringify(user)),
+  setToken: (token) => localStorage.setItem("token", token),
+  clear: () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+  },
+};
+
 export default function UserProvider({ children }) {
   const initState = {
-    user: JSON.parse(localStorage.getItem("user")) || {},
-    token: localStorage.getItem("token") || "",
+    user: storage.getUser() || {},
+    token: storage.getToken() || "",
     recipes: [],
     errMsg: "",
   };
@@ -31,8 +38,8 @@ export default function UserProvider({ children }) {
       .then((res) => {
         if (res && res.data) {
           const { user, token } = res.data;
-          localStorage.setItem("token", token); //save the token data and not lose it after browser refresh
-          localStorage.setItem("user", JSON.stringify(user));
+          storage.setUser(user);
+          storage.setToken(token);
           setUserState((prevUserState) => ({
             ...prevUserState,
             user,
@@ -40,34 +47,29 @@ export default function UserProvider({ children }) {
           }));
         }
       })
-
       .catch((err) => handleAuthErr(err.response.data.errMsg));
   }
 
-  // Login user
   function login(credentials) {
     axios
       .post("/auth/login", credentials)
-
       .then((res) => {
-        console.log(res.data);
-        const { user, token } = res.data;
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user));
-        // getpublicRecipes();
-        setUserState((prevUserState) => ({
-          ...prevUserState,
-          user,
-          token,
-        }));
+        if (res && res.data) {
+          const { user, token } = res.data;
+          storage.setUser(user);
+          storage.setToken(token);
+          setUserState((prevUserState) => ({
+            ...prevUserState,
+            user,
+            token,
+          }));
+        }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => handleAuthErr(err.response ? err.response.data.errMsg : "Login failed"));
   }
 
-  // Logout user
   function logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    storage.clear();
     setUserState({
       user: {},
       token: "",
@@ -76,7 +78,6 @@ export default function UserProvider({ children }) {
     });
   }
 
-  // error handling
   function handleAuthErr(errMsg) {
     setUserState((prevUserState) => ({
       ...prevUserState,
@@ -84,7 +85,6 @@ export default function UserProvider({ children }) {
     }));
   }
 
-  // reset Auth error
   function resetAuthErr() {
     setUserState((prevUserState) => ({
       ...prevUserState,
@@ -92,18 +92,24 @@ export default function UserProvider({ children }) {
     }));
   }
 
-  // Update user information
+  // Assuming updateUser function definition was intended from prior code context
   function updateUser(updatedUser) {
     userAxios
       .put("/api/user", updatedUser)
       .then((res) => {
-        localStorage.setItem("user", JSON.stringify(res.data));
-        setUserState((prevUserState) => ({
-          ...prevUserState,
-          user: res.data,
-        }));
+        if (res && res.data) {
+          storage.setUser(res.data);
+          setUserState((prevUserState) => ({
+            ...prevUserState,
+            user: res.data,
+          }));
+        }
       })
-      .catch((err) => console.log(err));
+      .catch((err) =>
+        handleAuthErr(
+          err.response ? err.response.data.errMsg : "Update failed"
+        )
+      );
   }
 
   return (
