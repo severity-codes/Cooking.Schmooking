@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import { CommentContext } from "../context/CommentProvider";
 import CommentForm from "./CommentsForm"; // Fixed typo
 import Comment from "./Comment";
-import "./commentlist.css"
+import "./commentlist.css";
 const CommentsList = ({ recipeId }) => {
-  const { comments, getComments } = useContext(CommentContext);
+  const { comments, getComments, deleteComment, editComment } =
+    useContext(CommentContext);
 
   useEffect(() => {
     if (recipeId) {
@@ -21,7 +22,15 @@ const CommentsList = ({ recipeId }) => {
     <div className="comments-container">
       {comments.length > 0 ? (
         comments.map((comment) => (
-          <Comment key={comment._id} {...comment} recipeId={recipeId} />
+          <Comment
+            key={comment._id}
+            {...comment}
+            recipeId={recipeId}
+            onDelete={() => deleteComment(comment._id)}
+            onEdit={(updatedComment) =>
+              editComment(comment._id, updatedComment)
+            }
+          />
         ))
       ) : (
         <div className="no-comments">No comments yet.</div>

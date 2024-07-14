@@ -3,14 +3,15 @@ import PropTypes from "prop-types";
 import { CommentContext } from "../context/CommentProvider";
 import { UserContext } from "../context/UserProvider";
 import "./commentform.css";
-
+import Comment from './Comment.jsx'
 const CommentForm = ({ recipeId }) => {
   // Initialize input state
   const initInputs = { comment: "" };
   const [inputs, setInputs] = useState(initInputs);
   
   // Retrieve context values
-  const { addComment } = useContext(CommentContext);
+
+  const { addComment, getComments, editComment, deleteComment } = useContext(CommentContext);
   const { user, token } = useContext(UserContext);
 
   // Handle input change

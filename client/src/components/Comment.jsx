@@ -11,17 +11,37 @@ function Comment(props) {
   // Handle first letter and cased username
   const firstLetter = user.username?.charAt(0).toUpperCase() || "";
   const usernameCased = user.username
-    ? `${user.username.charAt(0).toUpperCase()}${user.username.slice(1).toLowerCase()}`
+    ? `${user.username.charAt(0).toUpperCase()}${user.username
+        .slice(1)
+        .toLowerCase()}`
     : "";
 
-  const { deleteComment } = useContext(CommentContext);
+  const { deleteComment, editComment, addComment, getComments } =
+    useContext(CommentContext);
 
   function handleDelete() {
     deleteComment(recipeId, _id);
   }
 
+  function handleEdit() {
+    // Implement edit functionality
+    editComment(recipeId, _id, comment);
+  }
+
+  function handleAdd() {
+    // Implement add functionality
+    addComment(recipeId, comment);
+  }
+
+  function handleGet() {
+    // Implement get functionality
+    getComments(recipeId);
+  }
+
   // Check if createdAt is valid date
-  const formattedTime = moment(createdAt).isValid() ? moment(createdAt).fromNow() : "Unknown time";
+  const formattedTime = moment(createdAt).isValid()
+    ? moment(createdAt).fromNow()
+    : "Unknown time";
 
   const { token, user: currentUser } = useContext(UserContext);
 
@@ -46,6 +66,7 @@ function Comment(props) {
               ></Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item onClick={handleDelete}>Delete</Dropdown.Item>
+                <Dropdown.Item onClick={handleEdit}>Edit</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           )}
@@ -65,9 +86,9 @@ Comment.propTypes = {
   recipeId: PropTypes.string.isRequired,
   user: PropTypes.shape({
     _id: PropTypes.string,
-    username: PropTypes.string
+    username: PropTypes.string,
   }),
-  createdAt: PropTypes.string.isRequired
+  createdAt: PropTypes.string.isRequired,
 };
 
 export default Comment;
