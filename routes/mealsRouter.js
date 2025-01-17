@@ -7,7 +7,7 @@ mealsRouter.get("/details/:mealId", async (req, res) => {
   const { mealId } = req.params;
   const options = {
     method: "GET",
-    url: "https:www.themealdb.com/api/json/v1/1/search.php?f=a",
+    url: "www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata",
     params: { i: mealId }, // Use the mealId from the route parameter
     headers: {
       "X-RapidAPI-Key": RAPIDAPI_KEY,
@@ -27,12 +27,12 @@ mealsRouter.get("/search", async (req, res) => {
   const { f: query } = req.query; // Extract the search query from the request query parameters
   try {
     const response = await axios.get(
-      "https://themealdb.p.rapidapi.com/search.php",
+      "www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata",
       {
         params: { s: query }, // Pass the search query to the external API
         headers: {
           "X-RapidAPI-Key": RAPIDAPI_KEY,
-          "X-RapidAPI-Host": "themealdb.p.rapidapi.com",
+          "X-RapidAPI-Host": "themeal",
         },
       }
     );
