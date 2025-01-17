@@ -7,17 +7,14 @@ import "./commentlist.css";
 const CommentsList = ({ recipeId }) => {
   const { comments, getComments, deleteComment, editComment } =
     useContext(CommentContext);
-
   useEffect(() => {
     if (recipeId) {
       getComments(recipeId);
     }
   }, [recipeId, getComments]); // Ensure getComments is stable (e.g., using useCallback)
-
   if (!comments) {
     return <div className="loading-comments">Loading comments...</div>;
   }
-
   return (
     <div className="comments-container">
       {comments.length > 0 ? (
@@ -38,9 +35,7 @@ const CommentsList = ({ recipeId }) => {
     </div>
   );
 };
-
 CommentsList.propTypes = {
   recipeId: PropTypes.string.isRequired,
 };
-
 export default CommentsList;
